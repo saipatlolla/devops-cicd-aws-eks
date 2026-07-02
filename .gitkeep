@@ -1,0 +1,7 @@
+touch app/.gitkeep
+touch terraform/.gitkeep
+touch jenkins/.gitkeep
+touch kubernetes/.gitkeep
+touch ansible/.gitkeep
+touch docker/.gitkeep
+touch scripts/.gitkeep
