@@ -40,6 +40,7 @@ pipeline {
                     echo $PASS | docker login -u $USER --password-stdin
                     docker push $IMAGE_NAME:$TAG
                     """
+                }
             }
         }
 
