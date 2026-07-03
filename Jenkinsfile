@@ -5,6 +5,7 @@ pipeline {
 
     environment {
         APP_DIR = "app"
+        IMAGE_NAME = "your-dockerhub-username/demo-app"
     }
 
     stages {
@@ -24,15 +25,15 @@ pipeline {
                 }
             }
         }
-    }
-
-    post {
-        success {
-            echo "CI Build SUCCESS"
+        stage('Docker Build') {
+            steps {
+                echo "Building Docker image..."
+                sh """
+                    docker build -t ${IMAGE_NAME}:${BUILD_NUMBER} .    
+                """
+            }
         }
 
-        failure {
-            echo "CI Build FAILED"
-        }
     }
+
 }
