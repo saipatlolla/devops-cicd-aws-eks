@@ -1,38 +1,10 @@
-pipeline
-    agent {
-        label 'agent-1'
-    }
-
-    environment {
-        APP_DIR = "app"
-    }
-
+pipeline {
+    agent any
     stages {
-
-        stage('Checkout') {
+        stage('Test') {
             steps {
-                echo "Checking out code..."
-                checkout scm
-            }
-        }
-
-        stage('Build Maven') {
-            steps {
-                echo "Building Java application..."
-                dir("${APP_DIR}") {
-                    sh 'mvn clean package'
-                }
+                echo 'HELLO WORLD'
             }
         }
     }
-
-    post {
-        success {
-            echo "CI Build SUCCESS"
-        }
-
-        failure {
-            echo "CI Build FAILED"
-        }
-    }
-
+}
