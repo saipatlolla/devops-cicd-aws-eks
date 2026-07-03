@@ -29,11 +29,21 @@ pipeline {
             steps {
                 echo "Building Docker image..."
                 sh """
-                    docker build -t ${IMAGE_NAME}:${BUILD_NUMBER} .    
+                    docker build -t ${IMAGE_NAME}:${BUILD_NUMBER} .
                 """
+            }
+        }
+        stage ('Push image to dcoker hub') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'Docker-hub-creds', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+                    sh """
+                    echo $PASS | docker login -u $USER --password-stdin
+                    docker push $IMAGE_NAME:$TAG
+                    """
             }
         }
 
     }
 
 }
+
