@@ -5,7 +5,7 @@ pipeline {
 
     environment {
         APP_DIR = "app"
-        IMAGE_NAME = "your-dockerhub-username/demo-app"
+        IMAGE_NAME = "saishanker/java-demo"
     }
 
     stages {
