@@ -33,7 +33,7 @@ pipeline {
                 """
             }
         }
-        stage ('Push image to dcoker hub') {
+        stage ('Push image to Dcoker Hub') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'Docker-hub-creds', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
                     sh """
