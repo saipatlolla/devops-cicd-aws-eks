@@ -35,4 +35,4 @@ pipeline
             echo "CI Build FAILED"
         }
     }
-}
+
