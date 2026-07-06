@@ -3,6 +3,14 @@ pipeline {
         label 'agent-1'
     }
 
+    parameters {
+        choice(
+            name: 'ENV',
+            choices: ['dev', 'qa', 'prod'],
+            description: 'Select deployment environment'
+        )
+    }
+
     environment {
         APP_DIR = "app"
         IMAGE_NAME = "saishanker/java-demo"
@@ -33,7 +41,7 @@ pipeline {
                 """
             }
         }
-        stage ('Push images to dcoker hub') {
+        stage ('Push image to dcoker hub') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'Docker-hub-creds', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
                     sh """
@@ -43,7 +51,7 @@ pipeline {
                 }    
             }
         }
-        stage('Deployment to Kubernetes') {
+        stage('Deploy to Kubernetes') {
             steps {
                 sh """
                 sed -i 's|IMAGE_PLACEHOLDER|$IMAGE_NAME:${BUILD_NUMBER}|g' k8s/deployment.yaml
