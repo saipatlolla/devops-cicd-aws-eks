@@ -33,15 +33,26 @@ pipeline {
                 """
             }
         }
-        stage ('Push image to Dcoker Hub') {
+        stage ('Push image to dcoker hub') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'Docker-hub-creds', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
                     sh """
                     echo $PASS | docker login -u $USER --password-stdin
-                    docker push ${IMAGE_NAME}:${BUILD_NUMBER}
+                    docker push $IMAGE_NAME:${BUILD_NUMBER}
                     """
-                }
+                }    
             }
         }
+        stage('Deploy to Kubernetes') {
+            steps {
+                sh """
+                sed -i 's|IMAGE_PLACEHOLDER|$IMAGE_NAME:${BUILD_NUMBER}|g' k8s/deployment.yaml
+                kubectl apply -f k8s/deployment.yaml
+                kubectl apply -f k8s/service.yaml
+                kubectl rollout status deployment/demo-app
+                """
+            }
+        }    
     }
 }
+
