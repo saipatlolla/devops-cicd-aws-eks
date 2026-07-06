@@ -3,13 +3,20 @@ pipeline {
         label 'agent-1'
     }
 
-    parameters {
-        choice(
-            name: 'ENV',
-            choices: ['dev', 'qa', 'prod'],
-            description: 'Select deployment environment'
-        )
+    stage('Set Environment') {
+        steps {
+            script {
+                if (env.BRANCH_NAME == 'dev') {
+                    env.NAMESPACE = 'dev'
+                } else if (env.BRANCH_NAME == 'qa') {
+                    env.NAMESPACE = 'qa'
+                } else if (env.BRANCH_NAME == 'main') {
+                    env.NAMESPACE = 'prod'
+                }
+            }
+        }
     }
+
 
     environment {
         APP_DIR = "app"
@@ -55,8 +62,8 @@ pipeline {
             steps {
                 sh """
                 sed -i 's|IMAGE_PLACEHOLDER|$IMAGE_NAME:${BUILD_NUMBER}|g' k8s/deployment.yaml
-                kubectl apply -f k8s/deployment.yaml
-                kubectl apply -f k8s/service.yaml
+                kubectl apply -f k8s/deployment.yaml -n ${NAMESPACE}
+                kubectl apply -f k8s/service.yaml -n ${NAMESPACE}
                 kubectl rollout status deployment/demo-app
                 """
             }
