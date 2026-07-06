@@ -43,7 +43,7 @@ pipeline {
                 }    
             }
         }
-        stage('Deploy to Kubernetes') {
+        stage('Deployment to Kubernetes') {
             steps {
                 sh """
                 sed -i 's|IMAGE_PLACEHOLDER|$IMAGE_NAME:${BUILD_NUMBER}|g' k8s/deployment.yaml
