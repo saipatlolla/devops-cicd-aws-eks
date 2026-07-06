@@ -32,7 +32,7 @@ pipeline {
             }
         }
 
-        stage('Build Maven') {
+        stage('Builds Maven') {
             steps {
                 echo "Building Java application..."
                 dir("${APP_DIR}") {
