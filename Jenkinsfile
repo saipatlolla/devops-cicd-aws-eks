@@ -66,7 +66,7 @@ pipeline {
                 sed -i 's|IMAGE_PLACEHOLDER|${IMAGE_NAME}:${BUILD_NUMBER}|g' k8s/deployment.yaml
                 kubectl apply -f k8s/deployment.yaml -n ${env.NAMESPACE}
                 kubectl apply -f k8s/service.yaml -n ${env.NAMESPACE}
-                kubectl rollout status deployment/demo-app
+                kubectl rollout status deployment/java-app -n ${env.NAMESPACE}
                 """
             }
         }
