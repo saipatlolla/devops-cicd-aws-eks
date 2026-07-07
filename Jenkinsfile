@@ -10,7 +10,7 @@ pipeline {
 
     stages {
 
-        stage('Set Environment') {
+        stage('Set Environments') {
             steps {
                 script {
                     if (env.BRANCH_NAME == 'dev') {
