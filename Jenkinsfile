@@ -17,7 +17,6 @@ pipeline {
         }
     }
 
-
     environment {
         APP_DIR = "app"
         IMAGE_NAME = "saishanker/java-demo"
